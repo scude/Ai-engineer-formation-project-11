@@ -192,6 +192,27 @@ Pour ne pas perdre les notebooks :
 - Créer une paire de clés EC2 (fichier `.pem`).
 - Choisir/Créer les rôles IAM nécessaires.
 
+### Script CLI (recommandé)
+Pour automatiser la création du cluster avec des paramètres reproductibles,
+utilisez le script fourni :
+```bash
+./scripts/emr-create-cluster.sh --name "P11-cluster" --subnet-id "subnet-xxxx"
+```
+
+Valeurs personnalisables via variables d’environnement :
+```bash
+CLUSTER_NAME="P11-cluster" \
+REGION="eu-west-3" \
+LOG_URI="s3://p11-fruits-710002907257-eu-west-3/logs/emr" \
+BOOTSTRAP_PATH="s3://p11-fruits-710002907257-eu-west-3/bootstrap/bootstrap.sh" \
+SUBNET_ID="subnet-xxxx" \
+KEY_NAME="p11-emr-paris" \
+./scripts/emr-create-cluster.sh
+```
+
+Le script contient les paramètres IAM, groupes de sécurité et tailles de volumes
+du projet, tout en permettant leur surcharge si besoin.
+
 ## 6) Connexion au master (driver) et accès JupyterHub
 ### Ouvrir le port SSH (22)
 Dans EC2 → Groupe de sécurité `ElasticMapReduce-master` → ouvrir le port **22** (IPv4/IPv6).
